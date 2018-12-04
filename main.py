@@ -1,17 +1,19 @@
 # Recommender demo by drinkredwine 2018
 
-import implicit
+import app.models as m
 import numpy as np
 
-
-def load_data() -> np.array:
-    return np.load('data/vi_dataset_events')
-
-
-def train_model(data) -> []:
-    model = implicit.als.alternating_least_squares(factors=50)
-    model.fit(item_user_data)
-
-
 if __name__ == '__main__':
-    item_user_data = load_data()
+    item_user_data = m.load_data('data/vi_dataset_events.csv')
+    model = m.train_model(item_user_data)
+
+    with open('data/vi_challenge_uID.csv', 'r') as f:
+        data = f.readlines()
+
+    for line in data:
+        userid = np.float(line)
+        recs = m.recommend(userid, [])
+        print(userid, recs)
+
+
+
